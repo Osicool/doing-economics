@@ -14,7 +14,7 @@ const { Content, headings } = await render(project);
 const toc = headings.filter(h => h.depth === 2);
 ---
 <Base title={project.data.title} description={project.data.summary}>
-  <a class="back" href={`${base}/projects/`}>← All projects</a>
+  <a class="back" href={`${base}/#projects`}>← All projects</a>
   <header class="head">
     <span class="tag">{project.data.topic}</span><span class="tag">{project.data.level}</span>
     <h1>{project.data.title}</h1>

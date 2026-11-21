@@ -1,0 +1,23 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname;
+const links = [
+  { href: `${base}/projects/`, label: 'Projects' },
+  { href: `${base}/about/`, label: 'About' },
+];
+---
+<header>
+  <div class="wrap bar">
+    <a class="brand" href={`${base}/`}>Doing <b>Economics</b></a>
+    <nav aria-label="Main">
+      {links.map(l => <a href={l.href} aria-current={path.startsWith(l.href) ? 'page' : undefined}>{l.label}</a>)}
+    </nav>
+  </div>
+</header>
+<style>
+  header { border-bottom: 1px solid var(--line); background: var(--card); }
+  .bar { display: flex; justify-content: space-between; align-items: center; padding-block: .9rem; gap: 1rem; flex-wrap: wrap; }
+  .brand { color: var(--fg); text-decoration: none; font-size: 1.25rem; } .brand b { color: var(--accent); }
+  nav { display: flex; gap: 1.2rem; } nav a { color: var(--fg); text-decoration: none; padding: .2rem 0; border-bottom: 2px solid transparent; }
+  nav a:hover, nav a[aria-current] { border-color: var(--accent); }
+</style>

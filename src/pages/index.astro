@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const projects = (await getCollection('projects', p => !p.data.draft)).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Doing Economics">
+  <section class="hero">
+    <h1>Learn economics by <em>doing</em> it.</h1>
+    <p class="lede muted">Hands-on empirical projects using real data. Each one walks you through a question, the data, the method and the interpretation.</p>
+    <p><a class="btn" href={`${base}/projects/`}>Browse projects</a> <a class="btn ghost" href={`${base}/about/`}>How it works</a></p>
+  </section>
+  <section>
+    <h2>Featured projects</h2>
+    <div class="grid">{projects.slice(0, 6).map(p => <ProjectCard project={p} />)}</div>
+  </section>
+</Base>
+<style>
+  .hero { padding: 4rem 0 3rem; } .hero em { color: var(--accent); font-style: normal; }
+  .lede { font-size: 1.25rem; max-width: 38rem; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+</style>

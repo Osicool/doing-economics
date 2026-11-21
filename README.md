@@ -6,6 +6,7 @@ An [Astro](https://astro.build) site of hands-on empirical economics projects.
 npm install
 npm run dev      # http://localhost:4321/doing-economics/
 npm run build    # static output in dist/
+npm run check    # type-check
 ```
 
 ## Adding a project

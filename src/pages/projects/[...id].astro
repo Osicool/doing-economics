@@ -1,8 +1,9 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
+import { getProjects, base } from '../../lib/projects';
 import Base from '../../layouts/Base.astro';
 export async function getStaticPaths() {
-  const projects = (await getCollection('projects', p => !p.data.draft)).sort((a, b) => a.data.order - b.data.order);
+  const projects = await getProjects();
   return projects.map((project, i) => ({
     params: { id: project.id },
     props: { project, prev: projects[i - 1], next: projects[i + 1] },
@@ -10,7 +11,6 @@ export async function getStaticPaths() {
 }
 const { project, prev, next } = Astro.props;
 const { Content, headings } = await render(project);
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const toc = headings.filter(h => h.depth === 2);
 ---
 <Base title={project.data.title} description={project.data.summary}>

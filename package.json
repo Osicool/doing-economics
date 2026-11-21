@@ -10,7 +10,11 @@
     "check": "astro check"
   },
   "dependencies": {
-    "astro": "^7.4.13",
-    "@astrojs/sitemap": "^3.7.6"
+    "@astrojs/sitemap": "^3.7.6",
+    "astro": "^7.4.13"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^6.0.3"
   }
 }

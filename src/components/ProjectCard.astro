@@ -1,19 +1,39 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { base } from '../lib/projects';
 interface Props { project: CollectionEntry<'projects'> }
 const { project } = Astro.props;
 const { data, id } = project;
-const href = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/projects/${id}/`;
+const href = `${base}/projects/${id}/`;
 ---
+<div class="slot" data-topic={data.topic}>
 <article class="card">
   <span class="num">Project {data.order}</span>
   <h3><a href={href}>{data.title}</a></h3>
   <p class="muted">{data.summary}</p>
-  <p><span class="tag">{data.topic}</span><span class="tag">{data.level}</span></p>
+  <p class="tags"><span class="tag">{data.topic}</span><span class="tag">{data.level}</span></p>
 </article>
+</div>
 <style>
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.2rem; position: relative; transition: transform .15s, border-color .15s; }
-  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  /* The highlight is driven from the stationary .slot, not the moving card, so the card
+     lifting away from the cursor can't cause hover/unhover flicker at its edges.
+     Hover styles apply only on devices that can really hover, so touch screens don't get stuck cards. */
+  .slot { height: 100%; position: relative; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.2rem; position: relative; display: flex; flex-direction: column; height: 100%; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease; }
+  .num, .tag { transition: color .2s ease, background-color .2s ease; }
+  .card .tags { margin-top: auto; padding-top: .4rem; }
+  .slot:focus-within { z-index: 1; }
+  .slot:focus-within .card { transform: translateY(-8px) scale(1.03); border-color: var(--purple); background: color-mix(in srgb, var(--purple) 8%, var(--card)); box-shadow: 0 18px 32px -8px rgba(124, 58, 237, .35), 0 10px 18px -6px rgba(0, 0, 0, .3); }
+  /* Opaque mix (not transparent) so the colour never dips through the card behind mid-fade. */
+  .slot:focus-within .tag { color: var(--purple-text); background: color-mix(in srgb, var(--purple) 18%, var(--card)); }
+  .slot:focus-within .num { color: var(--purple-text); }
+  @media (hover: hover) {
+    .slot:hover { z-index: 1; }
+    .slot:hover .card { transform: translateY(-8px) scale(1.03); border-color: var(--purple); background: color-mix(in srgb, var(--purple) 8%, var(--card)); box-shadow: 0 18px 32px -8px rgba(124, 58, 237, .35), 0 10px 18px -6px rgba(0, 0, 0, .3); }
+    .slot:hover .tag { color: var(--purple-text); background: color-mix(in srgb, var(--purple) 18%, var(--card)); }
+    .slot:hover .num { color: var(--purple-text); }
+  }
+  @media (prefers-reduced-motion: reduce) { .slot:hover .card, .slot:focus-within .card { transform: none; } }
   .card h3 { margin: .2rem 0 .4rem; } .card h3 a { text-decoration: none; color: var(--fg); }
   .card h3 a::after { content: ''; position: absolute; inset: 0; }
   .num { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); font-weight: 600; }

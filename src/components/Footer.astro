@@ -2,8 +2,11 @@
 const year = new Date().getFullYear();
 ---
 <footer>
-  <div class="wrap">© {year} Doing Economics · Built with <a href="https://astro.build">Astro</a></div>
+  <div class="wrap">
+    <p>Projects are based on <a href="https://books.core-econ.org/doing-economics/index.html">Doing Economics: Empirical projects</a> by Eileen Tipoe and Ralf Becker (CORE Econ).</p>
+    <p>© {year} · Built with <a href="https://astro.build">Astro</a></p>
+  </div>
 </footer>
 <style>
-  footer { margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  footer { margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; } footer p { margin: .2rem 0; }
 </style>

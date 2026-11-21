@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const { data, id } = project;
+const href = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/projects/${id}/`;
+---
+<article class="card">
+  <span class="num">Project {data.order}</span>
+  <h3><a href={href}>{data.title}</a></h3>
+  <p class="muted">{data.summary}</p>
+  <p><span class="tag">{data.topic}</span><span class="tag">{data.level}</span></p>
+</article>
+<style>
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.2rem; position: relative; transition: transform .15s, border-color .15s; }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card h3 { margin: .2rem 0 .4rem; } .card h3 a { text-decoration: none; color: var(--fg); }
+  .card h3 a::after { content: ''; position: absolute; inset: 0; }
+  .num { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); font-weight: 600; }
+  p { margin: .3rem 0; }
+</style>
